@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TestController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +25,11 @@ Route::get('/test', [TestController::class, 'index']);
 Route::get('/data', [TestController::class, 'getData']);
 
 // Routes publiques pour l'authentification
-Route::post('/register', [TestController::class, 'register'])->name('api.register');
-Route::post('/login', [TestController::class, 'login'])->name('api.login');
+Route::post('/register', [AuthController::class, 'register'])->name('api.register');
+Route::post('/login', [AuthController::class, 'login'])->name('api.login');
+
+// Routes protégées par authentification
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
+    Route::get('/me', [AuthController::class, 'me'])->name('api.me');
+});
