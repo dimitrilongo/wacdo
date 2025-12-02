@@ -1,13 +1,56 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🍟 WACDO Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API backend du projet WACDO développé avec Laravel 11.
 
-## About Laravel
+## 📚 Documentation
+
+📂 **Toute la documentation se trouve dans le répertoire [`docs/`](./docs/)**
+
+### 🚀 Démarrage rapide
+- **[Guide API Utilisateur](./docs/DOCUMENTATION_API_USER.md)** - Documentation complète de l'API
+- **[Exemples d'utilisation](./docs/API_EXEMPLES.md)** - Exemples avec curl
+
+### 🔧 Documentation technique
+- **[Architecture Backend](./docs/RESUME_TECHNIQUE_BACKEND.md)** - Implémentation détaillée
+- **[Configuration TablePlus](./docs/GUIDE_TABLEPLUS.md)** - Accès à la base de données
+
+## ⚡ Démarrage rapide
+
+```bash
+# Installation des dépendances
+composer install
+
+# Configuration de l'environnement
+cp .env.example .env
+
+# Génération de la clé d'application
+php artisan key:generate
+
+# Exécution des migrations et seeders
+php artisan migrate --seed
+
+# Démarrage du serveur
+php artisan serve --host=127.0.0.1 --port=8000
+```
+
+## 🎯 API Endpoints
+
+### Routes publiques
+- `POST /api/register` - Inscription
+- `POST /api/login` - Connexion
+
+### Routes protégées
+- `GET /api/me` - Informations utilisateur
+- `POST /api/logout` - Déconnexion
+
+## 🧪 Utilisateurs de test
+```
+Admin : admin@wacdo.com / admin123
+Employé : jean.dupont@wacdo.com / password123
+Employée : sophie.martin@wacdo.com / password123
+```
+
+## 🏗️ À propos de Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 

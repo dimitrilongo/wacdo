@@ -4,6 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\PosteController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AffectationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +36,16 @@ Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
     Route::get('/me', [AuthController::class, 'me'])->name('api.me');
+
+    // Routes pour les restaurants
+    Route::apiResource('restaurants', RestaurantController::class);
+
+    // Routes pour les postes
+    Route::apiResource('postes', PosteController::class);
+
+    // Routes pour les utilisateurs
+    Route::apiResource('users', UserController::class);
+
+    // Routes pour les affectations
+    Route::apiResource('affectations', AffectationController::class);
 });

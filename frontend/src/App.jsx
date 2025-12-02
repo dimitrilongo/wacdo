@@ -1,90 +1,135 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { apiService } from './services/api'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import Dashboard from './pages/Dashboard';
+import RestaurantsPage from './pages/RestaurantsPage';
+import RestaurantDetailPage from './pages/RestaurantDetailPage';
+import CollaborateursPage from './pages/CollaborateursPage';
+import FonctionsPage from './pages/FonctionsPage';
+import AffectationsPage from './pages/AffectationsPage';
+
+// Composant pour protéger les routes privées
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+          <p className="mt-4 text-gray-600">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
+
+// Composant pour rediriger les utilisateurs connectés
+const PublicRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-red-600"></div>
+          <p className="mt-4 text-gray-600">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return isAuthenticated ? <Navigate to="/dashboard" /> : children;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [apiStatus, setApiStatus] = useState('Vérification...')
-  const [users, setUsers] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  // Test de connexion à l'API au chargement
-  useEffect(() => {
-    testApiConnection()
-  }, [])
-
-  const testApiConnection = async () => {
-    try {
-      const response = await apiService.testConnection()
-      setApiStatus(`✅ ${response.message}`)
-    } catch (error) {
-      setApiStatus(`❌ ${error.message}`)
-    }
-  }
-
-  const loadUsers = async () => {
-    setLoading(true)
-    try {
-      const response = await apiService.getData()
-      setUsers(response.users)
-    } catch (error) {
-      console.error('Erreur:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Application Wacdo</h1>
-      <h2>Frontend React + Backend Laravel</h2>
-      
-      <div className="card">
-        <div style={{ marginBottom: '20px' }}>
-          <h3>État de l'API Laravel:</h3>
-          <p>{apiStatus}</p>
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Route par défaut - redirige vers login */}
+            <Route path="/" element={<Navigate to="/login" replace />} />
+
+            {/* Routes publiques */}
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute>
+                  <RegisterPage />
+                </PublicRoute>
+              }
+            />
+
+            {/* Routes privées */}
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/restaurants"
+              element={
+                <PrivateRoute>
+                  <RestaurantsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/restaurants/:id"
+              element={
+                <PrivateRoute>
+                  <RestaurantDetailPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/collaborateurs"
+              element={
+                <PrivateRoute>
+                  <CollaborateursPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/fonctions"
+              element={
+                <PrivateRoute>
+                  <FonctionsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/affectations"
+              element={
+                <PrivateRoute>
+                  <AffectationsPage />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Route 404 - redirige vers login */}
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
         </div>
-        
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        
-        <div style={{ margin: '20px 0' }}>
-          <button onClick={loadUsers} disabled={loading}>
-            {loading ? 'Chargement...' : 'Charger les utilisateurs de test'}
-          </button>
-        </div>
-        
-        {users.length > 0 && (
-          <div style={{ textAlign: 'left', marginTop: '20px' }}>
-            <h3>Utilisateurs récupérés depuis l'API Laravel:</h3>
-            <ul>
-              {users.map(user => (
-                <li key={user.id}>
-                  <strong>{user.name}</strong> - {user.email}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-      
-      <p className="read-the-docs">
-        L'API Laravel tourne sur localhost:8000<br/>
-        Le frontend React tourne sur localhost:5173
-      </p>
-    </>
-  )
+      </Router>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

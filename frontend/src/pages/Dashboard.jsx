@@ -1,8 +1,9 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
-import { LogOut, User, Calendar, Shield, Mail } from 'lucide-react';
+import { LogOut, User, Calendar, Shield, Mail, Store, Users, Briefcase, Search } from 'lucide-react';
 
 const DashboardPage = () => {
   const { user, logout } = useAuth();
@@ -23,6 +24,26 @@ const DashboardPage = () => {
               </div>
               <h1 className="text-2xl font-bold text-gray-900">WACDO</h1>
             </div>
+
+            {/* Navigation */}
+            <nav className="flex items-center space-x-6">
+              <Link to="/restaurants" className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors">
+                <Store className="h-4 w-4" />
+                <span>Restaurants</span>
+              </Link>
+              <Link to="/collaborateurs" className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors">
+                <Users className="h-4 w-4" />
+                <span>Collaborateurs</span>
+              </Link>
+              <Link to="/fonctions" className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors">
+                <Briefcase className="h-4 w-4" />
+                <span>Fonctions</span>
+              </Link>
+              <Link to="/affectations" className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors">
+                <Search className="h-4 w-4" />
+                <span>Affectations</span>
+              </Link>
+            </nav>
             
             <div className="flex items-center space-x-4">
               <span className="text-gray-600">
@@ -93,56 +114,6 @@ const DashboardPage = () => {
             </CardContent>
           </Card>
 
-          {/* Carte Statistiques */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-red-600" />
-                <span>Statistiques (FAKE)</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-red-600">
-                  {Math.floor((new Date() - new Date(user?.date_embauche)) / (1000 * 60 * 60 * 24))}
-                </div>
-                <div className="text-sm text-gray-600">Jours d'ancienneté</div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-2xl font-bold text-yellow-600">🏆</div>
-                <div className="text-sm text-gray-600">Employé du mois</div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Carte Actions rapides */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Shield className="h-5 w-5 text-red-600" />
-                <span>Actions rapides</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full justify-start">
-                <User className="h-4 w-4 mr-2" />
-                Modifier le profil TO DO
-              </Button>
-              
-              <Button variant="outline" className="w-full justify-start">
-                <Calendar className="h-4 w-4 mr-2" />
-                Planning de la semaine TO DO si j'ai le temps
-              </Button>
-              
-              {user?.is_admin && (
-                <Button variant="outline" className="w-full justify-start">
-                  <Shield className="h-4 w-4 mr-2" />
-                  Administration TO DO
-                </Button>
-              )}
-            </CardContent>
-          </Card>
         </div>
 
         {/* Section informations supplémentaires */}
