@@ -23,18 +23,44 @@ rm -f "$PUBLIC_DIR/index.html" "$PUBLIC_DIR/vite.svg" "$PUBLIC_DIR/manifest.json
 echo "📁 Copie des fichiers build dans public/"
 cp -R dist/* "$PUBLIC_DIR/"
 
-echo "🧾 Copie d’un nouveau .htaccess pour React (si besoin)"
+echo "🧾 Mise à jour du .htaccess pour Laravel + React"
 cat > "$PUBLIC_DIR/.htaccess" <<'EOF'
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
 
-    # Laisser passer les vrais fichiers
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Laisser passer les fichiers statiques (assets React)
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # Laisser passer les dossiers
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # Rediriger tout le reste vers index.html (React SPA)
+    # Rediriger les requêtes /api/* vers Laravel
+    RewriteCond %{REQUEST_URI} ^/api/
+    RewriteRule ^ index.php [L]
+
+    # Rediriger les autres requêtes vers React (index.html)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/api/
     RewriteRule ^ index.html [L]
 </IfModule>
 
