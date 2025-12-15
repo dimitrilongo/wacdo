@@ -105,7 +105,7 @@ const LoginPage = () => {
           <h1 className="text-3xl font-bold text-gray-900">WACDO</h1>
           <p className="text-gray-600 mt-2">Connectez-vous à votre espace</p>
           {/* Version sous le titre */}
-          <p className="text-xs text-gray-400 mt-1">Version 1.0.0</p>
+          <p className="text-xs text-gray-400 mt-1">Version 1.0.1</p>
         </div>
 
         <Card className="shadow-lg">
