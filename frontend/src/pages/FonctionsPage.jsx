@@ -10,6 +10,7 @@ import Poste from '../components/Poste';
 export default function FonctionsPage() {
   const navigate = useNavigate();
   const { user, logout, token } = useAuth();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
   
   const [postes, setPostes] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -21,7 +22,7 @@ export default function FonctionsPage() {
   // Fonction pour récupérer la liste des postes
   const fetchPostes = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/postes', {
+      const response = await axios.get(`${API_BASE_URL}/postes`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -52,7 +53,7 @@ export default function FonctionsPage() {
       if (editingPoste) {
         // Mode édition : PUT
         await axios.put(
-          `http://127.0.0.1:8000/api/postes/${editingPoste.id}`,
+          `${API_BASE_URL}/postes/${editingPoste.id}`,
           formData,
           {
             headers: {
@@ -63,7 +64,7 @@ export default function FonctionsPage() {
       } else {
         // Mode création : POST
         await axios.post(
-          'http://127.0.0.1:8000/api/postes',
+          `${API_BASE_URL}/postes`,
           formData,
           {
             headers: {

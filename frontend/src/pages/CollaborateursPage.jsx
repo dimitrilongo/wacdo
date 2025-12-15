@@ -10,6 +10,7 @@ import Collaborateur from '../components/Collaborateur';
 export default function CollaborateursPage() {
   const navigate = useNavigate();
   const { user, logout, token } = useAuth();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
   
   const [collaborateurs, setCollaborateurs] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
@@ -52,7 +53,7 @@ export default function CollaborateursPage() {
   // Fonction pour récupérer la liste des collaborateurs
   const fetchCollaborateurs = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/users', {
+      const response = await axios.get(`${API_BASE_URL}/users`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -66,7 +67,7 @@ export default function CollaborateursPage() {
   // Fonction pour récupérer les restaurants
   const fetchRestaurants = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/restaurants', {
+      const response = await axios.get(`${API_BASE_URL}/restaurants`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -80,7 +81,7 @@ export default function CollaborateursPage() {
   // Fonction pour récupérer les postes
   const fetchPostes = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/postes', {
+      const response = await axios.get(`${API_BASE_URL}/postes`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -146,7 +147,7 @@ export default function CollaborateursPage() {
         console.log('ID utilisateur:', editingUser.id);
         
         await axios.put(
-          `http://127.0.0.1:8000/api/users/${editingUser.id}`,
+          `${API_BASE_URL}/users/${editingUser.id}`,
           dataToSend,
           {
             headers: {
@@ -169,7 +170,7 @@ export default function CollaborateursPage() {
           
           // Créer une nouvelle affectation
           await axios.post(
-            'http://127.0.0.1:8000/api/affectations',
+            `${API_BASE_URL}/affectations`,
             affectationData,
             {
               headers: {
@@ -183,7 +184,7 @@ export default function CollaborateursPage() {
       } else {
         // Mode création : POST
         await axios.post(
-          'http://127.0.0.1:8000/api/users',
+          `${API_BASE_URL}/users`,
           formData,
           {
             headers: {

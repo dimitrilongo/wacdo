@@ -9,6 +9,7 @@ import axios from "axios";
 export default function AffectationsPage() {
   const { user, logout, token } = useAuth();
   const navigate = useNavigate();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
   const [affectations, setAffectations] = useState([]);
   const [loading, setLoading] = useState(true);
   
@@ -27,7 +28,7 @@ export default function AffectationsPage() {
   const fetchAffectations = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://127.0.0.1:8000/api/affectations', {
+      const response = await axios.get(`${API_BASE_URL}/affectations`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -44,7 +45,7 @@ export default function AffectationsPage() {
   // Fonction pour récupérer les restaurants
   const fetchRestaurants = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/restaurants', {
+      const response = await axios.get(`${API_BASE_URL}/restaurants`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -58,7 +59,7 @@ export default function AffectationsPage() {
   // Fonction pour récupérer les postes
   const fetchPostes = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/postes', {
+      const response = await axios.get(`${API_BASE_URL}/postes`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -10,6 +10,7 @@ export default function RestaurantDetailPage() {
   const { id } = useParams(); // Récupère l'ID du restaurant depuis l'URL (query parameters)
   const navigate = useNavigate();
   const { user, logout, token } = useAuth();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
 
   const [restaurant, setRestaurant] = useState(null);
   const [affectations, setAffectations] = useState([]);
@@ -44,7 +45,7 @@ export default function RestaurantDetailPage() {
   // Fonction pour récupérer les détails du restaurant
   const fetchRestaurantDetails = async () => {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/restaurants/${id}`, {
+      const response = await axios.get(`${API_BASE_URL}/restaurants/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -60,7 +61,7 @@ export default function RestaurantDetailPage() {
   // Fonction pour récupérer la liste des postes (pour le filtre)
   const fetchPostes = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/postes', {
+      const response = await axios.get(`${API_BASE_URL}/postes`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -74,7 +75,7 @@ export default function RestaurantDetailPage() {
   // Fonction pour récupérer la liste des collaborateurs
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/users', {
+      const response = await axios.get(`${API_BASE_URL}/users`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -125,7 +126,7 @@ export default function RestaurantDetailPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://127.0.0.1:8000/api/restaurants/${id}`, formData, {
+      await axios.put(`${API_BASE_URL}/restaurants/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -151,7 +152,7 @@ export default function RestaurantDetailPage() {
   const handleAffectationSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://127.0.0.1:8000/api/affectations', {
+      await axios.post(`${API_BASE_URL}/affectations`, {
         ...affectationData,
         restaurant_id: parseInt(id),
         user_id: parseInt(affectationData.user_id),

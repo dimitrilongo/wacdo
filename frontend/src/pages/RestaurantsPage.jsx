@@ -9,6 +9,7 @@ import Restaurant from "../components/Restaurant.jsx";
 
 export default function RestaurantsPage() {
   const { user, logout, token } = useAuth();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
   const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState(null);
   //le formulaire je le cache ou l'affiche - par défaut il est caché
@@ -29,7 +30,7 @@ export default function RestaurantsPage() {
 
   const fetchRestaurants = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/restaurants", {
+      const response = await axios.get(`${API_BASE_URL}/restaurants`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -57,7 +58,7 @@ export default function RestaurantsPage() {
 	  e.preventDefault(); // pas de rechargement de page
 	  // on POST
     try {
-      await axios.post("http://127.0.0.1:8000/api/restaurants", formData, {
+      await axios.post(`${API_BASE_URL}/restaurants`, formData, {
         headers: {
           Authorization: `Bearer ${token}`
         }

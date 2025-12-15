@@ -35,7 +35,10 @@ php artisan migrate
 ```bash
 cd frontend
 npm install
+cp .env.example .env.local  # Copier le fichier d'environnement pour le développement local
 ```
+
+**Note:** Le fichier `.env.local` contient l'URL de l'API pour le développement local (`http://127.0.0.1:8000/api`). En production, le fichier `.env` contient l'URL de production. Le fichier `.env.local` n'est pas versionné (ignoré par Git).
 
 ## Démarrage des serveurs
 
