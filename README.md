@@ -59,6 +59,10 @@ Le frontend sera accessible sur : http://localhost:5173
 
 ## URLs des applications
 
+### Production
+- **Application en ligne** : https://eager-mestorf.141-94-242-165.plesk.page/login
+
+### Développement local
 - **Backend Laravel** : http://localhost:8000
 - **Frontend React** : http://localhost:5173
 
