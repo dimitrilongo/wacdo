@@ -117,9 +117,10 @@ php artisan migrate             # Exécuter les migrations
 ### Commandes utiles React
 
 ```bash
-npm run build      # Build de production
-npm run preview    # Prévisualiser le build
-npm run lint       # Linter le code
+npm run build                        # Build de production
+npm run preview                      # Prévisualiser le build
+npm run lint                         # Linter le code
+rm -rf dist node_modules/.vite       # Nettoyer le cache Vite (si problème d'affichage)
 ```
 
 ## TODO
