@@ -1,1 +1,5 @@
 .DS_Store
+
+# Gitleaks
+gitleaks-report.json
+gitleaks-report.sarif

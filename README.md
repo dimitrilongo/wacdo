@@ -95,6 +95,39 @@ Le frontend sera accessible sur : http://localhost:5173
 - **Diagramme de classes UML** : [docs/diagramme-classes.mmd](docs/diagramme-classes.mmd)
 - **Diagramme de base de données (ERD)** : [docs/diagramme-base-donnees.mmd](docs/diagramme-base-donnees.mmd)
 
+## 🔒 Sécurité
+
+### Scanner les secrets avec Gitleaks
+
+Gitleaks détecte les secrets (mots de passe, tokens, clés) dans le code Git.
+
+**Installation (macOS):**
+```bash
+brew install gitleaks
+```
+
+**Scanner le projet:**
+```bash
+./gitleaks-scan.sh
+```
+
+**Commandes manuelles:**
+```bash
+# Scan complet
+gitleaks detect --config .gitleaks.toml --verbose
+
+# Générer rapport JSON
+gitleaks detect --config .gitleaks.toml --report-path gitleaks-report.json
+
+# Scan avant commit (pre-commit hook)
+gitleaks protect --staged --verbose
+```
+
+**⚠️ Fichiers sensibles à ne JAMAIS commiter:**
+- `backend/.env` (contient APP_KEY, DB_PASSWORD)
+- `frontend/.env.local` (config locale)
+- `gitleaks-report.json` (rapport de scan)
+
 ## API Routes
 
 Le backend Laravel expose les routes API suivantes :

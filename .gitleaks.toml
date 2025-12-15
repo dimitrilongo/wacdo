@@ -1,0 +1,48 @@
+# Configuration Gitleaks pour le projet Wacdo
+title = "Gitleaks config for Wacdo project"
+
+# Règles personnalisées
+[[rules]]
+id = "laravel-app-key"
+description = "Laravel APP_KEY"
+regex = '''APP_KEY=base64:[A-Za-z0-9+/]{32,}={0,2}'''
+tags = ["key", "laravel"]
+
+[[rules]]
+id = "database-password"
+description = "Database password in .env"
+regex = '''DB_PASSWORD=.+'''
+tags = ["password", "database"]
+
+[[rules]]
+id = "jwt-secret"
+description = "JWT Secret"
+regex = '''JWT_SECRET=.+'''
+tags = ["secret", "jwt"]
+
+[[rules]]
+id = "api-token"
+description = "API Token"
+regex = '''(?i)(api[_-]?key|api[_-]?token|access[_-]?token)['":\s=]+([a-zA-Z0-9_\-]{20,})'''
+tags = ["token", "api"]
+
+# Fichiers à ignorer
+[allowlist]
+description = "Allowlisted files"
+paths = [
+    '''\.env\.example$''',
+    '''node_modules/''',
+    '''vendor/''',
+    '''\.git/''',
+    '''/storage/''',
+    '''/bootstrap/cache/''',
+]
+
+# Commits à ignorer (si nécessaire)
+commits = []
+
+# Regex à ignorer
+regexes = [
+    '''EXAMPLE_KEY=''',
+    '''YOUR_API_KEY''',
+]
