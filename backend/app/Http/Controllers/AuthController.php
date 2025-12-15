@@ -102,6 +102,12 @@ class AuthController extends Controller
                 ], 401);
             }
 
+            if (!$user->is_admin) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Accès refusé : privilèges administrateur requis'
+                ], 403);
+            }
             // Créer un token d'authentification
             $token = $user->createToken('auth_token')->plainTextToken;
 
