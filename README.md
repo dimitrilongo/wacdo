@@ -123,6 +123,51 @@ npm run lint                         # Linter le code
 rm -rf dist node_modules/.vite       # Nettoyer le cache Vite (si problème d'affichage)
 ```
 
+## Déploiement en production (Plesk)
+
+### Script de déploiement automatique
+
+Le projet utilise un script de déploiement automatique [`frontend/deploy.sh`](frontend/deploy.sh) qui :
+
+1. **Nettoie le cache** : Supprime `dist` et `.vite` pour éviter les problèmes de cache
+2. **Installe les dépendances** : Execute `npm install` avec Node.js 20 de Plesk
+3. **Build l'application** : Génère les fichiers de production dans `dist/`
+4. **Nettoie l'ancien build** : Supprime les anciens fichiers dans `backend/public/`
+5. **Copie les nouveaux fichiers** : Déplace le contenu de `dist/` vers `backend/public/`
+6. **Configure le .htaccess** : Crée les règles de réécriture pour React Router
+
+### Exécution du déploiement
+
+```bash
+# Depuis le serveur Plesk via SSH
+cd /var/www/vhosts/eager-mestorf.141-94-242-165.plesk.page/httpdocs/frontend
+bash deploy.sh
+```
+
+### Architecture de déploiement
+
+```
+/var/www/vhosts/eager-mestorf.141-94-242-165.plesk.page/httpdocs/
+├── frontend/          # Code source React + script deploy.sh
+│   ├── src/
+│   ├── deploy.sh
+│   └── ...
+└── backend/
+    ├── app/
+    ├── public/        # Build React déployé ici (assets/, index.html)
+    │   ├── .htaccess  # Géré par deploy.sh
+    │   ├── index.html # Point d'entrée React
+    │   └── assets/    # JS/CSS compilés
+    └── ...
+```
+
+### Points importants
+
+- Le frontend React est servi depuis `backend/public/` (même domaine que l'API Laravel)
+- Le `.htaccess` redirige toutes les routes vers `index.html` pour React Router
+- Les headers de cache sont désactivés pour forcer le rechargement des nouvelles versions
+- Le script utilise le binaire Node.js de Plesk : `/opt/plesk/node/20/bin/npm`
+
 ## TODO
 
 - [ ] Gérer les mots de passe oubliés (backend + envoi d'email)
