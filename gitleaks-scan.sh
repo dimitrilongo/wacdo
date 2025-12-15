@@ -12,16 +12,26 @@ if ! command -v gitleaks &> /dev/null; then
     exit 1
 fi
 
-# Scanner le repository
-echo "Scan du repository complet..."
-gitleaks detect --config .gitleaks.toml --verbose
+# Déterminer si on est dans un dépôt Git
+if [ -d .git ]; then
+    echo "📦 Dépôt Git détecté - Scan de l'historique Git..."
+    gitleaks detect --config .gitleaks.toml --verbose
+    SCAN_RESULT=$?
+    
+    echo ""
+    echo "Génération du rapport JSON..."
+    gitleaks detect --config .gitleaks.toml --report-path gitleaks-report.json --report-format json
+else
+    echo "📁 Pas de dépôt Git - Scan des fichiers actuels..."
+    gitleaks detect --config .gitleaks.toml --no-git --verbose
+    SCAN_RESULT=$?
+    
+    echo ""
+    echo "Génération du rapport JSON..."
+    gitleaks detect --config .gitleaks.toml --no-git --report-path gitleaks-report.json --report-format json
+fi
 
-# Sauvegarder le rapport
-echo ""
-echo "Génération du rapport JSON..."
-gitleaks detect --config .gitleaks.toml --report-path gitleaks-report.json --report-format json
-
-if [ $? -eq 0 ]; then
+if [ $SCAN_RESULT -eq 0 ]; then
     echo "✅ Aucun secret détecté!"
 else
     echo "⚠️  Secrets détectés! Consultez gitleaks-report.json"
