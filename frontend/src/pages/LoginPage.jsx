@@ -78,7 +78,7 @@ const LoginPage = () => {
     }
 
     try {
-      // Simuler l'envoi d'un email (à remplacer par un vrai appel API)
+      // juste un lessage yil y a rien derrière peute par laravel API POSt
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       setResetMessage(`Un email de réinitialisation a été envoyé à ${resetEmail}`);
@@ -230,7 +230,7 @@ const LoginPage = () => {
           </form>
         </Card>
 
-        {/* Modal Mot de passe oublié */}
+        {/* Modal Mot de passe oublié  Attention il se passe rien pas de code pour envoyer l'email*/}
         {showForgotPassword && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <Card className="w-full max-w-md">
@@ -292,18 +292,6 @@ const LoginPage = () => {
             </Card>
           </div>
         )}
-
-        {/* Mes Utilisateurs de test */}
-        <div className="mt-6 p-4 bg-white/50 rounded-lg border border-gray-200">
-          <h3 className="text-sm font-medium text-gray-700 mb-2">Comptes de test :</h3>
-          <div className="text-xs text-gray-600 space-y-1">
-            <div>Admin: dimitri@lexolia.com / motdepasse123</div>
-            <div>Admin: admin@wacdo.com / admin123</div>
-            <div>Employé: jean.dupont@wacdo.com / password123</div>
-          </div>
-          
-
-        </div>
       </div>
     </div>
   );
