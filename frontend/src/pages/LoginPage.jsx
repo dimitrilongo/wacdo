@@ -95,7 +95,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-yellow-50 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-yellow-50 p-4 relative">
       <div className="w-full max-w-md">
         {/* Logo/Header */}
         <div className="text-center mb-8">
@@ -104,6 +104,8 @@ const LoginPage = () => {
           </div>
           <h1 className="text-3xl font-bold text-gray-900">WACDO</h1>
           <p className="text-gray-600 mt-2">Connectez-vous à votre espace</p>
+          {/* Version sous le titre */}
+          <p className="text-xs text-gray-400 mt-1">Version 1.0.0</p>
         </div>
 
         <Card className="shadow-lg">
