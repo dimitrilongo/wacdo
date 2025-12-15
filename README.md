@@ -93,6 +93,11 @@ Le backend Laravel expose les routes API suivantes :
 
 - `GET /api/` - Route de test de l'API
 
+### Documentation et tests API
+
+- **Collection Postman** : [Workspace Wacdo](https://solar-satellite-201711.postman.co/workspace/Wacdo~019869bf-2339-4c0b-a6bc-1ed2a11380b9/overview)
+  - Testez toutes les routes API directement depuis Postman
+
 ## Développement
 
 ### Commandes utiles Laravel
