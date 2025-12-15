@@ -1,0 +1,141 @@
+classDiagram
+    %% Classes principales
+    class Restaurant {
+        +int id
+        +string nom
+        +string adresse
+        +string code_postal
+        +string ville
+        +DateTime created_at
+        +DateTime updated_at
+        +affectations() HasMany
+        +create(array data) Restaurant
+        +update(array data) bool
+        +delete() bool
+        +find(int id) Restaurant
+    }
+
+    class User {
+        +int id
+        +string email
+        +string mot_de_passe
+        +string nom
+        +string prenom
+        +Date date_embauche
+        +bool is_admin
+        +DateTime email_verified_at
+        +DateTime created_at
+        +DateTime updated_at
+        +affectations() HasMany
+        +create(array data) User
+        +update(array data) bool
+        +delete() bool
+        +find(int id) User
+        +login(string email, string password) string
+        +logout() void
+    }
+
+    class Poste {
+        +int id
+        +string nom
+        +string description
+        +DateTime created_at
+        +DateTime updated_at
+        +affectations() HasMany
+        +create(array data) Poste
+        +update(array data) bool
+        +delete() bool
+        +find(int id) Poste
+    }
+
+    class Affectation {
+        +int id
+        +int user_id
+        +int restaurant_id
+        +int poste_id
+        +Date date_debut
+        +Date date_fin
+        +DateTime created_at
+        +DateTime updated_at
+        +user() BelongsTo
+        +restaurant() BelongsTo
+        +poste() BelongsTo
+        +create(array data) Affectation
+        +update(array data) bool
+        +delete() bool
+        +find(int id) Affectation
+        +isActive() bool
+        +isPast() bool
+    }
+
+    %% Controllers
+    class RestaurantController {
+        +index() JsonResponse
+        +store(Request request) JsonResponse
+        +show(int id) JsonResponse
+        +update(Request request, int id) JsonResponse
+        +destroy(int id) JsonResponse
+    }
+
+    class UserController {
+        +index() JsonResponse
+        +store(Request request) JsonResponse
+        +show(int id) JsonResponse
+        +update(Request request, int id) JsonResponse
+        +destroy(int id) JsonResponse
+    }
+
+    class PosteController {
+        +index() JsonResponse
+        +store(Request request) JsonResponse
+        +show(int id) JsonResponse
+        +update(Request request, int id) JsonResponse
+        +destroy(int id) JsonResponse
+    }
+
+    class AffectationController {
+        +index() JsonResponse
+        +store(Request request) JsonResponse
+        +show(int id) JsonResponse
+        +update(Request request, int id) JsonResponse
+        +destroy(int id) JsonResponse
+    }
+
+    class AuthController {
+        +register(Request request) JsonResponse
+        +login(Request request) JsonResponse
+        +logout(Request request) JsonResponse
+        +me(Request request) JsonResponse
+    }
+
+    %% Relations entre modèles
+    Restaurant "1" --o "*" Affectation : has many
+    User "1" --o "*" Affectation : has many
+    Poste "1" --o "*" Affectation : has many
+    Affectation "*" --> "1" Restaurant : belongs to
+    Affectation "*" --> "1" User : belongs to
+    Affectation "*" --> "1" Poste : belongs to
+
+    %% Relations contrôleurs-modèles
+    RestaurantController ..> Restaurant : uses
+    UserController ..> User : uses
+    PosteController ..> Poste : uses
+    AffectationController ..> Affectation : uses
+    AuthController ..> User : uses
+
+    %% Annotations
+    class User {
+        <<Laravel Model>>
+    }
+    class Restaurant {
+        <<Laravel Model>>
+    }
+    class Poste {
+        <<Laravel Model>>
+    }
+    class Affectation {
+        <<Laravel Model>>
+    }
+    class AuthController {
+        <<API Controller>>
+    }

@@ -1,0 +1,47 @@
+erDiagram
+    RESTAURANTS ||--o{ AFFECTATIONS : "has"
+    USERS ||--o{ AFFECTATIONS : "makes"
+    POSTES ||--o{ AFFECTATIONS : "defines"
+    
+    RESTAURANTS {
+        int id PK "Identifiant unique"
+        string nom "Nom du restaurant"
+        string adresse "Adresse complète"
+        string code_postal "Code postal"
+        string ville "Ville"
+        timestamp created_at "Date de création"
+        timestamp updated_at "Date de mise à jour"
+    }
+    
+    USERS {
+        int id PK "Identifiant unique"
+        string email UK "Email unique"
+        string mot_de_passe "Mot de passe hashé"
+        string nom "Nom de famille"
+        string prenom "Prénom"
+        date date_embauche "Date d'embauche (nullable)"
+        boolean is_admin "Statut administrateur"
+        timestamp email_verified_at "Date de vérification email"
+        string remember_token "Token de session"
+        timestamp created_at "Date de création"
+        timestamp updated_at "Date de mise à jour"
+    }
+    
+    POSTES {
+        int id PK "Identifiant unique"
+        string nom "Nom du poste"
+        string description "Description (nullable)"
+        timestamp created_at "Date de création"
+        timestamp updated_at "Date de mise à jour"
+    }
+    
+    AFFECTATIONS {
+        int id PK "Identifiant unique"
+        int user_id FK "Référence collaborateur"
+        int restaurant_id FK "Référence restaurant"
+        int poste_id FK "Référence poste"
+        date date_debut "Date de début"
+        date date_fin "Date de fin (nullable)"
+        timestamp created_at "Date de création"
+        timestamp updated_at "Date de mise à jour"
+    }
