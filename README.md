@@ -28,7 +28,10 @@ composer install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
+php artisan db:seed --class=AdminUserSeeder  # Créer un utilisateur admin (email: admin@wacdo.com, mot de passe: Admin123!)
 ```
+
+**Note :** En production, pensez à changer le mot de passe admin après la première connexion.
 
 ### Frontend (React)
 
