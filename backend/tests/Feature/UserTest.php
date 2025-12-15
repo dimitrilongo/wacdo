@@ -107,7 +107,7 @@ describe('User Model', function () {
             'prenom' => 'Dimitri',
             'date_embauche' => '2025-06-01'
         ]);
-
+        // test de sécurité (-->Git leaks)
         expect($user->mot_de_passe)->not->toBe('password123')// je vérifi e que le mot de passe n'est pas stocké en clair
             ->and(Hash::check('password123', $user->mot_de_passe))->toBeTrue();// et là je vérifie que le hash correspond bien au mot de passe original
     });
