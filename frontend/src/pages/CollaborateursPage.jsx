@@ -34,6 +34,21 @@ export default function CollaborateursPage() {
     date_fin: ''
   });
 
+  // Générer un mot de passe aléatoire sécurisé
+	const generateRandomPassword = () => {
+	// longeur du mot de passe
+	const length = 12;
+	// caractères utilisables (70 charactères possibles)
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+	let password = '';
+	// bouble 12 fois
+	for (let i = 0; i < length; i++) {
+		// Math.random() c'est un décimal !!!! pas 0 ou 1 et Math.floor() arrondi vers le bas
+      	password += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    return password;
+  };
+
   // Fonction pour récupérer la liste des collaborateurs
   const fetchCollaborateurs = async () => {
     try {
@@ -89,6 +104,24 @@ export default function CollaborateursPage() {
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  // Initialiser avec un mot de passe aléatoire lors de l'ouverture du formulaire
+  const handleShowForm = () => {
+    const randomPassword = generateRandomPassword();
+    setFormData({
+      prenom: '',
+      nom: '',
+      email: '',
+      password: randomPassword,
+      password_confirmation: randomPassword,
+      restaurant_id: '',
+      poste_id: '',
+      date_debut: '',
+      date_fin: ''
+    });
+    setEditingUser(null);
+    setShowForm(true);
   };
 
   // Fonction pour créer ou modifier un collaborateur
@@ -352,7 +385,7 @@ export default function CollaborateursPage() {
           
           {!showForm && (
             <Button
-              onClick={() => setShowForm(true)}
+              onClick={handleShowForm}
               className="bg-gradient-to-r from-red-600 to-yellow-500 hover:from-red-700 hover:to-yellow-600 text-white flex items-center space-x-2"
             >
               <Plus className="h-5 w-5" />
@@ -491,35 +524,17 @@ export default function CollaborateursPage() {
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Mot de passe *
-                      </label>
-                      <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                        placeholder="••••••••"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Confirmer le mot de passe *
-                      </label>
-                      <input
-                        type="password"
-                        name="password_confirmation"
-                        value={formData.password_confirmation}
-                        onChange={handleChange}
-                        required
-                        placeholder="••••••••"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                      />
-                    </div>
+                    {/* Champs de mot de passe cachés avec génération automatique */}
+                    <input
+                      type="hidden"
+                      name="password"
+                      value={formData.password}
+                    />
+                    <input
+                      type="hidden"
+                      name="password_confirmation"
+                      value={formData.password_confirmation}
+                    />
                   </>
                 )}
 
