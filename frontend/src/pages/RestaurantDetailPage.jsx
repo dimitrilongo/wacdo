@@ -33,6 +33,7 @@ export default function RestaurantDetailPage() {
     date_debut: new Date().toISOString().split('T')[0],
     date_fin: ''
   });
+	// États pour le formulaire de modification du restaurant
   const [formData, setFormData] = useState({
     nom: '',
     adresse: '',
@@ -204,12 +205,6 @@ export default function RestaurantDetailPage() {
     aujourdhui.setHours(0, 0, 0, 0); // Réinitialiser l'heure pour comparer juste les dates
     return dateFin < aujourdhui;
   });
-
-  // Debug - à retirer après vérification
-  console.log('Total affectations:', affectations.length);
-  console.log('Affectations en cours:', affectationsEnCours.length);
-  console.log('Affectations passées:', affectationsPassees.length);
-  console.log('Détails passées:', affectationsPassees);
 
   // Fonction pour filtrer les affectations en cours avec les filtres
   const filteredAffectations = affectationsEnCours.filter(affectation => {
@@ -612,7 +607,7 @@ export default function RestaurantDetailPage() {
               </div>
             )}
 
-            {/* Liste des collaborateurs en cours */}
+            {/* Liste des collaborateurs en cours  attention si tableau vide filteredAffectations message erreur sino on affiche*/}
             {filteredAffectations.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
                 {affectationsEnCours.length === 0 ?
